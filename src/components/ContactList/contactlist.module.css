@@ -1,0 +1,178 @@
+.container {
+  margin-left: 100px;
+  margin-top: 30px;
+}
+
+li {
+  list-style-type: none;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 800px;
+  background-color: rgb(236, 236, 236);
+}
+
+#deletesymbol {
+  height: 25px;
+  width: 25px;
+  font-size: 25px;
+  margin-left: 50px;
+  border: none;
+  background: none;
+}
+
+#titleinfo {
+  font-size: 16px;
+  color: gray;
+  margin-left: 50px;
+  width: 350px;
+}
+
+#titlecompany {
+  font-size: 16px;
+  color: gray;
+  width: 250px;
+}
+
+.contact_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact {
+  padding: 20px 0px;
+  width: 800px;
+  display: flex;
+  align-items: center;
+}
+
+.contact:hover {
+  background-color: rgb(216, 214, 214);
+}
+
+.check {
+  height: 20px;
+  width: 20px;
+  margin-left: 50px;
+}
+
+.wrapper {
+  width: 350px;
+  margin-left: 50px;
+}
+
+.info {
+  display: flex;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 500;
+  color: white;
+  min-height: 50px;
+  min-width: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+.text_overflow_hidden{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.name{
+  width: 225px;
+}
+
+.email {
+  color: gray;
+  font-size: 15px;
+  width: 225px;
+}
+
+.company {
+  width: 250px;
+}
+
+.error_msg_container {
+  height: 80px;
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid lightgray;
+}
+
+.delete_btn {
+  margin-left: 20px;
+  border: none;
+  background: none;
+}
+
+.delete_btn i {
+  color: black;
+  font-size: 25px;
+}
+
+@media (max-width: 1650px) {
+  .container {
+    margin-left: 50px;
+  }
+}
+
+@media (max-width: 1500px) {
+  .title {
+    width: 600px;
+  }
+  #deletesymbol {
+    margin-left: 20px;
+  }
+  #titleinfo {
+    width: 290px;
+  }
+
+  #titlecompany {
+    width: 150px;
+  }
+  .contact {
+    width: 600px;
+  }
+  .check {
+    margin-left: 20px;
+  }
+  .wrapper {
+    width: 290px;
+  }
+  .company {
+    width: 150px;
+  }
+  .error_msg_container {
+    width: 600px;
+  }
+}
+
+@media (max-width: 1250px) {
+  .container {
+    margin-left: 0px;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 95vw;
+    overflow-x: scroll;
+  }
+}

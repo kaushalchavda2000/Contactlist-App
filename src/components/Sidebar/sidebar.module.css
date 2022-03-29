@@ -1,0 +1,25 @@
+.sidebar{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 50px;
+  position:fixed;
+  background-image: linear-gradient(rgb(245, 136, 86) 30%,rgb(231, 133, 202) 70%,rgb(226, 107, 190) 100%);
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.icon{
+  color: white;
+  font-size: 25px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+@media(max-width:700px){
+  .sidebar{
+    display: none;
+  }
+}

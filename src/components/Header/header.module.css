@@ -1,0 +1,31 @@
+.container{
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
+  margin-left: 100px;
+}
+
+.icon{
+  color:rgb(245, 136, 86);
+  font-size: 40px;
+}
+
+.text_container{
+  margin-left: 15px;
+}
+
+.description{
+  color: gray;
+}
+
+@media(max-width:1650px){
+  .container{
+    margin-left: 50px;
+  }
+}
+
+@media(max-width:1250px){
+  .container{
+    margin-left: 0px;
+  }
+}

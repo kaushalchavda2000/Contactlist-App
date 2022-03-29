@@ -1,0 +1,103 @@
+.flex{
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 5px;
+}
+
+input{
+  padding-left: 10px;
+}
+
+.modal{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(155, 155, 155, 0.527);
+  animation: movedown 500ms ease-in-out forwards;
+}
+
+@keyframes movedown{
+  0%{transform: translateY(-100vh);}
+  100%{transform: translateY(0%);}
+}
+
+.modal_content{
+  border-radius: 10px;
+  background-color: white;
+}
+
+.modal_header{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.title{
+  margin-left: 20px;
+}
+
+.cancel_btn{
+  font-size: 25px;
+  border: none;
+  background:none;
+  margin-right: 20px;
+}
+
+.name{
+  display: flex;
+  justify-content: space-between;
+}
+
+input{
+  height: 30px;
+  border-radius: 5px;
+}
+
+.modal_footer{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.add_btn{
+  height: 40px;
+  width: 200px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 20px;
+  background-image: linear-gradient(
+    to right,
+    rgb(245, 136, 86) 20%,
+    rgb(231, 133, 202) 80%,
+    rgb(226, 107, 190) 100%
+  );
+}
+
+.errormessage{
+  height: 25px;
+  color: red;
+  font-size: 13px;
+  font-weight: 700;  
+}
+
+@media(max-width:500px){
+  .modal_content{
+    width: 90vw;
+  }
+  .name{
+    flex-direction: column;
+  }
+}
