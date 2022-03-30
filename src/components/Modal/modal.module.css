@@ -1,15 +1,3 @@
-.flex{
-  display: flex;
-  flex-direction: column;
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 5px;
-}
-
-input{
-  padding-left: 10px;
-}
-
 .modal{
   height: 100vh;
   width: 100vw;
@@ -58,11 +46,6 @@ input{
   justify-content: space-between;
 }
 
-input{
-  height: 30px;
-  border-radius: 5px;
-}
-
 .modal_footer{
   display: flex;
   justify-content: center;
@@ -86,18 +69,8 @@ input{
   );
 }
 
-.errormessage{
-  height: 25px;
-  color: red;
-  font-size: 13px;
-  font-weight: 700;  
-}
-
 @media(max-width:500px){
   .modal_content{
     width: 90vw;
-  }
-  .name{
-    flex-direction: column;
   }
 }

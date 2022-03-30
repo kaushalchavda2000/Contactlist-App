@@ -13,8 +13,7 @@ import "./App.css";
 function App() {
   const initialState = {
     contactId: new Date().getTime().toString(),
-    color: `#${Math.floor(Math.random() * 16777215).toString(16)} `,
-    isChecked: false,
+    color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
     firstname: "",
     lastname: "",
     email: "",
@@ -30,7 +29,7 @@ function App() {
   const [contacts, setContacts] = useState([]);
   const [editFlag, setEditflag] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [checkedContacts, setCheckedContacts] = useState([]);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const handleModalShowHide = () => {
@@ -57,12 +56,9 @@ function App() {
   useEffect(() => {
     const retriveData = JSON.parse(localStorage.getItem("contacts"));
     if (retriveData) {
-      const resetAllContacts = retriveData.map((contact) => {
-        contact.isChecked = false;
-        return contact;
-      });
-      setContacts(resetAllContacts);
+      setContacts(retriveData);
     }
+    window.addEventListener("resize", () => setWindowWidth(window.innerWidth));
   }, []);
 
   useEffect(() => {
@@ -78,24 +74,6 @@ function App() {
     setContactDetail(obj);
   };
 
-  useEffect(() => {
-    if (searchQuery === "") {
-      setSearchResults(JSON.parse(localStorage.getItem("contacts")));
-    } else {
-      let newContactList = contacts.filter((contact) => {
-        if (
-          `${contact.firstname.toLowerCase()} ${contact.lastname.toLowerCase()}`.includes(
-            searchQuery.toLowerCase()
-          )
-        ) {
-          return true;
-        }
-        return false;
-      });
-      setSearchResults(newContactList);
-    }
-  }, [searchQuery, contacts]);
-
   const deleteContactHandler = (contactId, event) => {
     event.stopPropagation();
     if (contactId === contactDetail.contactId) {
@@ -108,15 +86,15 @@ function App() {
     });
   };
 
-  const CheckedContactsHandler = (contactId) => {
-    const contact = contacts.find((obj) => obj.contactId === contactId);
-    contact.isChecked = !contact.isChecked;
-    const index = contacts.findIndex(
-      (obj) => obj.contactId === contact.contactId
+  const CheckedContactsHandler = (contactId, event) => {
+    event.stopPropagation();
+    setCheckedContacts((prev) =>
+      checkedContacts.includes(contactId)
+        ? checkedContacts.filter((element) => {
+            return element !== contactId;
+          })
+        : [...prev, contactId]
     );
-    const arr1 = contacts.slice(0, index);
-    const arr2 = contacts.slice(index + 1);
-    setContacts([...arr1, contact, ...arr2]);
   };
 
   const deleteCheckedContactsHandler = () => {
@@ -129,13 +107,11 @@ function App() {
     }
 
     const remainingContacts = contacts.filter((contact) => {
-      return !contact.isChecked;
+      return !checkedContacts.includes(contact);
     });
-
+    setCheckedContacts([]);
     setContacts(remainingContacts);
   };
-
-  window.addEventListener("resize", () => setWindowWidth(window.innerWidth));
 
   return (
     <>
@@ -152,20 +128,34 @@ function App() {
         <div className="contactdetails_and_list_container">
           <ContactList
             handleContactDetailShowHide={handleContactDetailShowHide}
-            contacts={searchQuery !== "" ? searchResults : contacts}
+            contacts={
+              searchQuery !== ""
+                ? contacts.filter((contact) => {
+                    if (
+                      `${contact.firstname.toLowerCase()} ${contact.lastname.toLowerCase()}`.includes(
+                        searchQuery.toLowerCase()
+                      )
+                    ) {
+                      return true;
+                    }
+                    return false;
+                  })
+                : contacts
+            }
             setContactDetailHandler={setContactDetailHandler}
             deleteContactHandler={deleteContactHandler}
             CheckedContactsHandler={CheckedContactsHandler}
+            checkedContacts={checkedContacts}
             deleteCheckedContactsHandler={deleteCheckedContactsHandler}
             contactDetail={contactDetail}
           >
             {contactDetailFlag && windowWidth < 1250 ? (
-            <ContactDetails
-              contactDetail={contactDetail}
-              handleModalShowHide={handleModalShowHide}
-              editFlagHandler={setEditflag}
-            />
-          ) : null}
+              <ContactDetails
+                contactDetail={contactDetail}
+                handleModalShowHide={handleModalShowHide}
+                editFlagHandler={setEditflag}
+              />
+            ) : null}
           </ContactList>
           {contactDetailFlag && windowWidth >= 1250 && (
             <ContactDetails

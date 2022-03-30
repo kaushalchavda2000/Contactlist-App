@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 
+import Input from "../Input/Input";
+
 import styles from "./modal.module.css";
 
 const errorMessagesInitialState = {
   firstname_error: "",
   lastname_error: "",
   email_error: "",
-  phoneNo_error: "",
+  phone_error: "",
   company_error: "",
   role_error: "",
   address_error: "",
@@ -20,9 +22,6 @@ const Modal = ({
   btnValue,
   contacts,
 }) => {
-  
-  
-
   const [contact, setContact] = useState(initialState);
   const [errormessages, setErrorMessages] = useState(errorMessagesInitialState);
 
@@ -40,178 +39,84 @@ const Modal = ({
       ...previous,
       [name]: value,
     }));
-    handleValidation(event);
+    handleValidation(event.target.name, event.target.value);
   };
 
-  const handleValidation = (event) => {
-    const { name, value } = event.target;
-    switch (name) {
-      case "firstname":
-        validateFirstName(value);
-        break;
-      case "lastname":
-        validateLastName(value);
-        break;
-      case "phone":
-        validatePhoneNumber(value);
-        break;
-      case "email":
-        validateEmail(value);
-        break;
-      case "company":
-        validateCompany(value);
-        break;
-      case "role":
-        validateRole(value);
-        break;
-      case "address":
-        validateAddress(value);
-        break;
-      default:
-        alert("Something went wrong Please try again!");
-        break;
-    }
-  };
+  const handleValidation = (name, value) => {
 
-  const validateFirstName = (name) => {
-    if (name.trim() !== "") {
-      setErrorMessages((previous) => ({
-        ...previous,
-        firstname_error: "",
-      }));
-      return true;
-    } else {
-      setErrorMessages((previous) => ({
-        ...previous,
-        firstname_error: "First Name is required!",
-      }));
-      return false;
-    }
-  };
+    let bool, message;
 
-  const validateLastName = (name) => {
-    if (name.trim() !== "") {
-      setErrorMessages((previous) => ({
-        ...previous,
-        lastname_error: "",
-      }));
-      return true;
-    } else {
-      setErrorMessages((previous) => ({
-        ...previous,
-        lastname_error: "Last Name is required!",
-      }));
-      return false;
-    }
-  };
-
-  const validateEmail = (email) => {
-    if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email)) {
-      const emailsAlreadyExist = contacts.find((obj) => obj.email === email);
-      if (emailsAlreadyExist) {
-        setErrorMessages((previous) => ({
-          ...previous,
-          email_error: "This Email is already Exists!",
-        }));
-        return false;
+    const getError = () => {
+      switch (name) {
+        case "firstname":
+          message = value.trim() !== "" ? "" : "First Name is required!";
+          bool = value.trim() !== "";
+          return message;
+        case "lastname":
+          message = value.trim() !== "" ? "" : "Last Name is required!";
+          bool = value.trim() !== "";
+          return message;
+        case "email":
+          const email =
+            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(value);
+          const emailsAlreadyExist = contacts.find(
+            (obj) => obj.email === value
+          );
+          message = email
+            ? emailsAlreadyExist
+              ? "This Email is already Exists!"
+              : ""
+            : "Invalid Email Address!";
+          bool = email ? (emailsAlreadyExist ? false : true) : false;
+          return message;
+        case "phone":
+          const phoneNo = /^\d{10}$/.test(value);
+          const phoneNoAlreadyExist = contacts.find(
+            (obj) => obj.phone === value
+          );
+          message = phoneNo
+          ? phoneNoAlreadyExist
+            ? "This Phone number is already Exists!"
+            : ""
+          : "Invalid Phone Number!";
+          bool = phoneNo ? (phoneNoAlreadyExist ? false : true) : false;
+          return message;
+        case "company":
+          message = value.trim() !== "" ? "" : "Company is required!";
+          bool = value.trim() !== "";
+          return message;
+        case "role":
+          message = value.trim() !== "" ? "" : "Role is required!";
+          bool = value.trim() !== "";
+          return message;
+        case "address":
+          message = value.trim() !== "" ? "" : "Address is required!";
+          bool = value.trim() !== "";
+          return message;
+        default:
+          alert("Something went wrong Please try again!");
+          return "";
       }
-      setErrorMessages((previous) => ({
-        ...previous,
-        email_error: "",
-      }));
-      return true;
-    } else {
-      setErrorMessages((previous) => ({
-        ...previous,
-        email_error: "Invalid Email Address!",
-      }));
-      return false;
-    }
+    };
+
+    setErrorMessages((prev) => {
+      return {
+        ...prev,
+        [`${name}_error`]: getError(),
+      };
+    });
+    return bool;
   };
 
-  const validatePhoneNumber = (number) => {
-    var phoneno = /^\d{10}$/;
-    if (number.match(phoneno)) {
-      const phoneNoAlreadyExist = contacts.find((obj) => obj.phone === number);
-      if (phoneNoAlreadyExist) {
-        setErrorMessages((previous) => ({
-          ...previous,
-          phoneNo_error: "This Phone number is already Exists!",
-        }));
-        return false;
-      }
-      setErrorMessages((previous) => ({
-        ...previous,
-        phoneNo_error: "",
-      }));
-      return true;
-    } else {
-      setErrorMessages((previous) => ({
-        ...previous,
-        phoneNo_error: "Invalid Phone Number!",
-      }));
-      return false;
-    }
-  };
-
-  const validateCompany = (company) => {
-    if (company.trim() !== "") {
-      setErrorMessages((previous) => ({
-        ...previous,
-        company_error: "",
-      }));
-      return true;
-    } else {
-      setErrorMessages((previous) => ({
-        ...previous,
-        company_error: "Company is Required!",
-      }));
-      return false;
-    }
-  };
-
-  const validateRole = (role) => {
-    if (role.trim() !== "") {
-      setErrorMessages((previous) => ({
-        ...previous,
-        role_error: "",
-      }));
-      return true;
-    } else {
-      setErrorMessages((previous) => ({
-        ...previous,
-        role_error: "Role is Required!",
-      }));
-      return false;
-    }
-  };
-
-  const validateAddress = (address) => {
-    if (address.trim() !== "") {
-      setErrorMessages((previous) => ({
-        ...previous,
-        address_error: "",
-      }));
-      return true;
-    } else {
-      setErrorMessages((previous) => ({
-        ...previous,
-        address_error: "Address is Required!",
-      }));
-      return false;
-    }
-  };
+ 
 
   const addContactHandler = (event) => {
     event.preventDefault();
-    const firstname = validateFirstName(contact.firstname);
-    const lastname = validateLastName(contact.lastname);
-    const email = validateEmail(contact.email);
-    const phone = validatePhoneNumber(contact.phone);
-    const company = validateCompany(contact.company);
-    const role = validateRole(contact.role);
-    const address = validateAddress(contact.address);
-    if (firstname && lastname && email && phone && company && role && address) {
+    const arr = [];
+    Array.from(Object.keys(contact).slice(2)).forEach((key) => {
+      arr.push(handleValidation(key, contact[key]));
+    });
+    if (!arr.includes(false)) {
       setContact(initialState);
       addDataHandler(contact);
       handleModalShowHide();
@@ -224,9 +129,7 @@ const Modal = ({
 
   return (
     <form className={styles.modal}>
-      {/*oncClick = {modalShowHideHandler}*/}
       <div className={styles.modal_content}>
-        {/*onClick={(e) => e.stopPropagation()} */}
         <div className={styles.modal_header}>
           <h2 className={styles.title}>Enter Contact Details</h2>
           <button className={styles.cancel_btn} onClick={handleModalShowHide}>
@@ -234,133 +137,88 @@ const Modal = ({
           </button>
         </div>
         <div className={styles.modal_body}>
-          <div className={`${styles.name}`}>
-            <div className={`${styles.firstname_container} ${styles.flex}`}>
-              <label htmlFor={styles.firstname}>First Name</label>
-              <input
-                type="text"
-                placeholder="Enter First name"
-                name="firstname"
-                id={styles.firstname}
-                value={contact.firstname}
-                onChange={onChangeHandler}
-                onBlur={handleValidation}
-              />
-              {errormessages.firstname_error && (
-                <div className={styles.errormessage}>
-                  {errormessages.firstname_error}
-                </div>
-              )}
-            </div>
-            <div className={`${styles.lastname_container} ${styles.flex}`}>
-              <label htmlFor={styles.lastname}>Last Name</label>
-              <input
-                type="text"
-                placeholder="Enter Last name"
-                name="lastname"
-                id={styles.lastname}
-                value={contact.lastname}
-                onChange={onChangeHandler}
-                onBlur={handleValidation}
-              />
-              {errormessages.lastname_error && (
-                <div className={styles.errormessage}>
-                  {errormessages.lastname_error}
-                </div>
-              )}
-            </div>
-          </div>
-          <div className={`${styles.email_container} ${styles.flex}`}>
-            <label htmlFor={styles.email}>Email</label>
-            <input
-              type="text"
-              placeholder="Enter your Email Address"
-              name="email"
-              id={styles.email}
-              value={contact.email}
-              onChange={onChangeHandler}
-              onBlur={handleValidation}
-            />
-            {errormessages.email_error && (
-              <div className={styles.errormessage}>
-                {errormessages.email_error}
-              </div>
-            )}
-          </div>
-          <div className={`${styles.phone_container} ${styles.flex}`}>
-            <label htmlFor={styles.phone}>Phone NO.</label>
-            <input
-              type="text"
-              placeholder="Enter Your Phone number"
-              name="phone"
-              id={styles.phone}
-              value={contact.phone}
-              onChange={onChangeHandler}
-              onBlur={handleValidation}
-            />
-            {errormessages.phoneNo_error && (
-              <div className={styles.errormessage}>
-                {errormessages.phoneNo_error}
-              </div>
-            )}
-          </div>
-          <div className={`${styles.company_container} ${styles.flex}`}>
-            <label htmlFor={styles.company}>Company</label>
-            <input
-              type="text"
-              placeholder="Enter Company Name"
-              name="company"
-              id={styles.company}
-              value={contact.company}
-              onChange={onChangeHandler}
-              onBlur={handleValidation}
-            />
-            {errormessages.company_error && (
-              <div className={styles.errormessage}>
-                {errormessages.company_error}
-              </div>
-            )}
-          </div>
-          <div className={`${styles.role_container} ${styles.flex}`}>
-            <label htmlFor={styles.role}>Your Role </label>
-            <input
-              type="text"
-              placeholder="Enter your role"
-              name="role"
-              id={styles.role}
-              value={contact.role}
-              onChange={onChangeHandler}
-              onBlur={handleValidation}
-            />
-            {errormessages.role_error && (
-              <div className={styles.errormessage}>
-                {errormessages.role_error}
-              </div>
-            )}
-          </div>
-          <div className={`${styles.address_container} ${styles.flex}`}>
-            <label htmlFor={styles.address}>Address</label>
-            <input
-              type="text"
-              placeholder="Enter Your Address"
-              name="address"
-              id={styles.address}
-              value={contact.address}
-              onChange={onChangeHandler}
-              onBlur={handleValidation}
-            />
-            {errormessages.address_error && (
-              <div className={styles.errormessage}>
-                {errormessages.address_error}
-              </div>
-            )}
-          </div>
+          <Input
+            label={"First Name"}
+            name={"firstname"}
+            placeholder={"Enter First Name"}
+            value={contact.firstname}
+            onChangeHandler={onChangeHandler}
+            handleValidation={(event) =>
+              handleValidation(event.target.name, event.target.value)
+            }
+            errorMessage={errormessages.firstname_error}
+          />
+          <Input
+            label={"Last Name"}
+            name={"lastname"}
+            placeholder={"Enter Last Name"}
+            value={contact.lastname}
+            onChangeHandler={onChangeHandler}
+            handleValidation={(event) =>
+              handleValidation(event.target.name, event.target.value)
+            }
+            errorMessage={errormessages.lastname_error}
+          />
+          <Input
+            label={"Email"}
+            name={"email"}
+            placeholder={"Enter Your Email Address"}
+            value={contact.email}
+            onChangeHandler={onChangeHandler}
+            handleValidation={(event) =>
+              handleValidation(event.target.name, event.target.value)
+            }
+            errorMessage={errormessages.email_error}
+          />
+          <Input
+            label={"Phone No."}
+            name={"phone"}
+            placeholder={"Enter Your Phone Number"}
+            value={contact.phone}
+            onChangeHandler={onChangeHandler}
+            handleValidation={(event) =>
+              handleValidation(event.target.name, event.target.value)
+            }
+            errorMessage={errormessages.phone_error}
+          />
+          <Input
+            label={"Company"}
+            name={"company"}
+            placeholder={"Enter Company Name"}
+            value={contact.company}
+            onChangeHandler={onChangeHandler}
+            handleValidation={(event) =>
+              handleValidation(event.target.name, event.target.value)
+            }
+            errorMessage={errormessages.company_error}
+          />
+          <Input
+            label={"Your Role"}
+            name={"role"}
+            placeholder={"Enter Your Role"}
+            value={contact.role}
+            onChangeHandler={onChangeHandler}
+            handleValidation={(event) =>
+              handleValidation(event.target.name, event.target.value)
+            }
+            errorMessage={errormessages.role_error}
+          />
+          <Input
+            label={"Address"}
+            name={"address"}
+            placeholder={"Enter Your Address"}
+            value={contact.address}
+            onChangeHandler={onChangeHandler}
+            handleValidation={(event) =>
+              handleValidation(event.target.name, event.target.value)
+            }
+            errorMessage={errormessages.address_error}
+          />
         </div>
         <div className={styles.modal_footer}>
           <button className={styles.add_btn} onClick={addContactHandler}>
             {btnValue}
           </button>
-          
         </div>
       </div>
     </form>

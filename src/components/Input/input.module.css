@@ -1,0 +1,27 @@
+.flex{
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 5px;
+}
+
+.inputfield{
+  padding-left: 10px;
+  height: 30px;
+  width: 400px;
+  border-radius: 5px;
+}
+
+.errormessage{
+  height: 25px;
+  color: red;
+  font-size: 13px;
+  font-weight: 700;  
+}
+
+@media(max-width:500px){
+  .inputfield{
+    width: 95%;
+  }
+}

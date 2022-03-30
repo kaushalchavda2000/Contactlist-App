@@ -1,4 +1,5 @@
 import React from "react";
+
 import styles from "./contactlist.module.css";
 
 const ContactList = ({
@@ -7,6 +8,7 @@ const ContactList = ({
   setContactDetailHandler,
   deleteContactHandler,
   CheckedContactsHandler,
+  checkedContacts,
   deleteCheckedContactsHandler,
   contactDetail,
   children,
@@ -20,9 +22,7 @@ const ContactList = ({
     <div className={styles.container}>
       <li className={styles.title}>
         <button id={styles.deletesymbol} onClick={deleteCheckedContactsHandler}>
-          {contacts.filter((contact) => {
-            return contact.isChecked;
-          }).length !== 0 && <i className="fa-solid fa-trash-can"></i>}
+          {checkedContacts.length !== 0 && <i className="fa-solid fa-trash-can"></i>}
         </button>
         <div id={styles.titleinfo}>Basic info</div>
         <div id={styles.titlecompany}>Company</div>
@@ -42,9 +42,9 @@ const ContactList = ({
                   className={styles.check}
                   onClick={(event) => event.stopPropagation()}
                   onChange={(event) =>
-                    CheckedContactsHandler(contact.contactId)
+                    CheckedContactsHandler(contact.contactId, event)
                   }
-                  checked={contact.isChecked}
+                  checked={checkedContacts.includes(contact.contactId)}
                 />
                 <div className={styles.wrapper}>
                   <div className={styles.info}>
