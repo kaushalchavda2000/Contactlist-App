@@ -99,10 +99,12 @@ const Modal = ({
       }
     };
 
+    const errorMsg = getError();
+
     setErrorMessages((prev) => {
       return {
         ...prev,
-        [`${name}_error`]: getError(),
+        [`${name}_error`]: errorMsg,
       };
     });
     return bool;
@@ -116,6 +118,7 @@ const Modal = ({
     Array.from(Object.keys(contact).slice(2)).forEach((key) => {
       arr.push(handleValidation(key, contact[key]));
     });
+    console.log(arr);
     if (!arr.includes(false)) {
       setContact(initialState);
       addDataHandler(contact);
